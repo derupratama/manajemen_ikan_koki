@@ -7,4 +7,10 @@ Route::get('/', function () {
 });
 
 
+
 Route::get('/welcome',[HomeController::class, 'index'])->name('welcome');
+
+Route::get('/home', function () {
+    return view('home');
+});
+
