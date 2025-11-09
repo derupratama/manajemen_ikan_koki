@@ -692,3 +692,48 @@ body {
         font-size: 24px;
     }
 }
+
+/* ===== Lokasi Section ===== */
+.lokasi-section {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 60px 0;
+}
+
+.lokasi-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 40px;
+}
+
+.lokasi-info {
+    flex: 1;
+    min-width: 280px;
+}
+
+.lokasi-info h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #ffc107;
+}
+
+.lokasi-info p {
+    margin: 6px 0;
+    line-height: 1.6;
+}
+
+.lokasi-link {
+    color: #00bcd4;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.lokasi-link:hover {
+    text-decoration: underline;
+}
+
+.lokasi-map {
+    flex: 1.2;
+    min-width: 320px;
+}
