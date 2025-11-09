@@ -150,6 +150,91 @@
         </div>
     </section>
 
+<div class="contact-section">
+  <!-- Kiri: Teks Kontak -->
+  <div class="contact-info">
+    <h3>Contact Us</h3>
+    <h4>Kiyay Gold Fish</h4>
+    <p>Pringsewu, Margodadi, Ambarawa, Lampung 35376</p>
+    <p>Phone: 0887 0649 7974</p>
+    <p>Email: kiyaygoldfish@gmail.com</p>
+    <p>Instagram: @kiyaygoldfish</p>
+    <p>TikTok: @kiyaygoldfish</p>
+  </div>
+
+  <!-- Kanan: Peta -->
+  <div class="contact-map">
+    <iframe
+      src="https://maps.google.com/maps?width=400&height=250&hl=en&q=Kiyay%20Gold%20Fish%20Pringsewu&t=&z=15&ie=UTF8&iwloc=B&output=embed"
+      frameborder="0"
+      allowfullscreen=""
+      loading="lazy">
+    </iframe>
+  </div>
+</div>
+
+<style>
+  .contact-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #222;
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .contact-info {
+    width: 48%;
+  }
+
+  .contact-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #f1c40f;
+  }
+
+  .contact-info h4 {
+    margin-bottom: 10px;
+  }
+
+  .contact-info p {
+    margin: 4px 0;
+    font-size: 1rem;
+  }
+
+  .contact-map {
+    width: 48%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .contact-map iframe {
+    width: 100%;
+    max-width: 400px;
+    height: 250px;
+    border: 0;
+    border-radius: 8px;
+  }
+
+  /* Responsif */
+  @media (max-width: 768px) {
+    .contact-section {
+      flex-direction: column;
+    }
+
+    .contact-map {
+      width: 100%;
+      margin-top: 20px;
+      justify-content: center;
+    }
+  }
+</style>
+
+
+
+
     <footer id="kontak" class="footer">
         <div class="container">
             <p>&copy; 2025 Kiyay Gold Fish. Solusi Ikan Mas Koki Premium Anda.</p>
