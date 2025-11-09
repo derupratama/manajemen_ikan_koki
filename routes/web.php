@@ -14,3 +14,7 @@ Route::get('/home', function () {
     return view('home');
 });
 
+Route::get('/semua-produk', function () {
+    return view('semua-produk');
+});
+
