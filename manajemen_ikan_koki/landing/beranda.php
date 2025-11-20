@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Temukan Keindahan Mas Koki Premium Terbaik</h1>
     <p>Koleksi ikan hias dengan kualitas kontes, sehat, dan menawan.</p>
-    <a href="#produk" class="cta-button">Lihat Koleksi Ikan </a>
+    <a href="?page=produk" class="cta-button">Lihat Koleksi Ikan </a>
   </div>
 </section>
 
@@ -69,7 +69,7 @@
     </div>
 
     <div class="lihat-semua-container" style="text-align:center; margin-top:30px;">
-      <a href="/semua-produk" class="cta-button">Lihat Semua Ikan</a>
+      <a href="?page=produk" class="cta-button">Lihat Semua Ikan</a>
     </div>
   </div>
 </section>
