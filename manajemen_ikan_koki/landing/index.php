@@ -21,7 +21,7 @@
 
       <ul>
         <li><a href="?page=beranda">Beranda</a></li>
-        <li><a href="?page=semua_produk">Produk</a></li>
+        <li><a href="?page=produk">Produk</a></li>
         <li><a href="?page=beranda#testimoni">Testimoni</a></li>
         <li><a href="?page=beranda#kontak" class="cta-nav">Hubungi Kami</a></li>
       </ul>
