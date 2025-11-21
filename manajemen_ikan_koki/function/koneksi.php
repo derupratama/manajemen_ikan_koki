@@ -146,3 +146,43 @@ function query($sql) {
 //     INSERT INTO admin (username, name, password)
 //     VALUES ('admin', 'Administrator', '$hash')
 // ");
+
+$db->exec("
+    CREATE TABLE IF NOT EXISTS tabel_gambar (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nama_file TEXT NOT NULL,
+        uploaded_at TEXT DEFAULT CURRENT_TIMESTAMP
+    )
+");
+
+function uploadGambar($file, $conn, $folder = '../assets/img/ikan/') {
+    global $db;
+    if (!isset($file) || $file['error'] === UPLOAD_ERR_NO_FILE) {
+        return ['status' => false, 'msg' => 'Tidak ada gambar yang diupload.'];
+    }
+
+    if (!is_dir($folder)) {
+        mkdir($folder, 0755, true);
+    }
+
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    $allowed = ['jpg','jpeg','png','gif'];
+    if (!in_array($ext, $allowed)) {
+        return ['status' => false, 'msg' => 'File bukan gambar.'];
+    }
+
+    $namaFile = uniqid('img_') . '.' . $ext;
+
+    if (!move_uploaded_file($file['tmp_name'], $folder . $namaFile)) {
+        return ['status' => false, 'msg' => 'Gagal memindahkan file.'];
+    }
+
+    // Insert nama file ke database
+   $stmt = $db->prepare("INSERT INTO tabel_gambar (nama_file) VALUES (:nama)");
+    $stmt->bindValue(':nama', $namaFile, SQLITE3_TEXT);
+    $stmt->execute();
+
+
+    return ['status' => true, 'file' => $namaFile, 'msg' => 'Upload berhasil!'];
+}
+
