@@ -1,5 +1,5 @@
 <?php
-require 'koneksi.php';
+require '../function/koneksi.php';
 // Ambil semua nama tabel di database
 $tables = [];
 $result = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'");

@@ -2,7 +2,8 @@
 // ================================
 // KONEKSI DATABASE
 // ================================
-$db = new SQLite3('ikankoki.db');
+chdir(__DIR__);
+$db = new SQLite3(__DIR__ . 'ikankoki.sqlite');
 $db->exec("PRAGMA foreign_keys = ON;");
 
 
@@ -122,3 +123,20 @@ $db->exec("
 //     (3, 5, 1),
 //     (3, 8, 1)
 // ");
+
+function query($sql) {
+    global $db;
+
+    if (stripos($sql, 'select') === 0) {
+        $result = $db->query($sql);
+        $rows = [];
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $rows[] = $row;
+        }
+
+        return $rows; 
+    } else {
+        return $db->exec($sql);
+    }
+}

@@ -1,65 +1,58 @@
+<?php
+
+$dataIkan = query("SELECT * FROM ikan
+  JOIN jenisIKan ON ikan.idJenisIkan = jenisIkan.idJenisIkan");
+
+
+?>
+
 <main>
-    <section class="produk-section">
-        <div class="container">
-            <h2><i class="fas fa-fish"></i> Semua Koleksi Mas Koki</h2>
-            <div class="product-grid">
+    <section id="produk" class="produk-section py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Koleksi Mas Koki Pilihan</h2>
 
-                <div class="product-card">
-                    <img src="../assets/img/ikan/ikan.png" alt="Oranda Red Cap">
-                    <h3>Oranda Red Cap</h3>
-                    <p>Oranda dengan hood besar dan warna merah cerah, siap kontes.</p>
-                    <span class="price">Rp 550.000</span>
-                    <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 316px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-                    <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Oranda Red Cap seharga Rp 550.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-                </div>
+    <div class="row" id="product-list">
 
-                <div class="product-card">
-                    <img src="../assets/img/ikan/ikan.png" alt="Ranchu Premium">
-                    <h3>Ranchu Premium</h3>
-                    <p>Ranchu berekor pendek, kepala besar, dan tubuh kokoh.</p>
-                    <span class="price">Rp 300.000</span>
-                    <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 316px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-                    <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ranchu Premium seharga Rp 300.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-                </div>
+      <?php foreach($dataIkan as $index => $i) { ?>
+          <div class="col-md-4 col-lg-3 mb-4">
+              <div class="card h-100 shadow-sm">
 
-                <div class="product-card">
-                    <img src="../assets/img/ikan/ikan.png" alt="Ryukin Calico">
-                    <h3>Ryukin Calico</h3>
-                    <p>Ryukin dengan corak calico tiga warna dan sirip panjang elegan.</p>
-                    <span class="price">Rp 220.000</span>
-                    <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 316px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-                    <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ryukin Calico seharga Rp 220.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-                </div>
+                  <img src="../assets/img/ikan/ikan.png" 
+                       class="card-img-top" 
+                       alt="<?= $i['deskripsi'] ?>"
+                       style="object-fit: cover; height: 180px;">
 
-                <div class="product-card">
-                    <img src="../assets/img/ikan/ikan.png" alt="Lionhead Gold">
-                    <h3>Lionhead Gold</h3>
-                    <p>Lionhead tanpa sirip punggung, tubuh bulat, warna keemasan memukau.</p>
-                    <span class="price">Rp 280.000</span>
-                    <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 316px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-                    <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Lionhead Gold seharga Rp 280.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-                </div>
+                  <div class="card-body d-flex flex-column">
+                      <h5 class="card-title">
+                        <?= $i['jenisIkan'] . ' ' . $i['ukuran'] . '(' . $i['gender'] . ')' ?>
+                      </h5>
 
-                <div class="product-card">
-                    <img src="../assets/img/ikan/ikan.png" alt="Black Moor">
-                    <h3>Black Moor</h3>
-                    <p>Ikan eksotik berwarna hitam pekat dengan mata teleskop unik.</p>
-                    <span class="price">Rp 250.000</span>
-                    <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 316px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-                    <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Black Moor seharga Rp 250.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-                </div>
+                      <p class="card-text text-muted" style="flex-grow:1;">
+                        <?= $i['deskripsi'] ?>
+                      </p>
 
-                <div class="product-card">
-                    <img src="../assets/img/ikan/ikan.png" alt="Bubble Eye">
-                    <h3>Bubble Eye</h3>
-                    <p>Memiliki gelembung di bawah mata dan gerakan renang yang lembut.</p>
-                    <span class="price">Rp 270.000</span>
-                    <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 316px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-                    <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Bubble Eye seharga Rp 270.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-                </div>
+                      <h6 class="text-primary font-weight-bold mb-3">
+                        Rp. <?= $i['harga'] ?>
+                      </h6>
 
-            </div>
-        </div>
-    </section>
+                      <button 
+                        class="btn btn-outline-primary mb-2 w-100" 
+                        onclick="showDetail('<?= $i['jenisIkan'] ?>','<?= $i['ukuran'] ?> (<?= $i['gender'] ?>)',<?= $i['harga'] ?>,<?= $i['stokIkan']?>,'<?= $i['deskripsi'] ?>')">
+                        Detail
+                      </button>
+
+                      <a href="https://wa.me/6288706497974?text=Halo, saya ingin membeli <?= $i['jenisIkan'] ?> seharga Rp <?= $i['harga'] ?>" 
+                        target="_blank" 
+                        class="btn btn-success w-100">
+                        Beli Sekarang
+                      </a>
+                  </div>
+
+              </div>
+          </div>
+      <?php } ?>
+
+    </div>
+
 
 </main>

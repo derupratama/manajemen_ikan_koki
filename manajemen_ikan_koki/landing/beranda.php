@@ -1,3 +1,12 @@
+<?php
+
+$dataIkan = query("SELECT * FROM ikan
+  JOIN jenisIKan ON ikan.idJenisIkan = jenisIkan.idJenisIkan
+  ORDER BY idJenisIkan DESC LIMIT 6");
+
+
+?>
+
 <section class="hero">
   <div class="container">
     <h1>Temukan Keindahan Mas Koki Premium Terbaik</h1>
@@ -6,73 +15,62 @@
   </div>
 </section>
 
-<section id="produk" class="produk-section">
+<section id="produk" class="produk-section py-5">
   <div class="container">
-    <h2>Koleksi Mas Koki Pilihan</h2>
-    <div class="product-grid" id="product-list">
+    <h2 class="text-center mb-4">Koleksi Mas Koki Pilihan</h2>
 
-      <div class="product-card" data-name="Oranda Red Cap">
-        <img src="../assets/img/ikan/ikan.png" alt="Oranda Red Cap">
-        <h3>Oranda Red Cap</h3>
-        <p>Oranda dengan hood besar dan warna merah cerah.</p>
-        <span class="price">Rp 550.000</span>
-        <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 295px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-        <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ranchu Premium seharga Rp 300.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-        
-      </div>
+    <div class="row" id="product-list">
 
-      <div class="product-card" data-name="Ranchu Premium">
-        <img src="../assets/img/ikan/ikan.png" alt="Ranchu Premium">
-        <h3>Ranchu Premium</h3>
-        <p>Ranchu dengan body kokoh dan warna stabil.</p>
-        <span class="price">Rp 300.000</span>
-        <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 295px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-        <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ranchu Premium seharga Rp 300.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-      </div>
+      <?php foreach($dataIkan as $index => $i) { ?>
+          <div class="col-md-4 col-lg-3 mb-4">
+              <div class="card h-100 shadow-sm">
 
-      <div class="product-card" data-name="Ryukin Calico">
-        <img src="../assets/img/ikan/ikan.png" alt="Ryukin Calico">
-        <h3>Ryukin Calico</h3>
-        <p>Ryukin dengan corak calico unik dan ekor panjang.</p>
-        <span class="price">Rp 220.000</span>
-        <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 295px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-        <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ranchu Premium seharga Rp 300.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-      </div>
+                  <img src="../assets/img/ikan/ikan.png" 
+                       class="card-img-top" 
+                       alt="<?= $i['deskripsi'] ?>"
+                       style="object-fit: cover; height: 180px;">
 
-      <div class="product-card" data-name="Lionhead Classic">
-        <img src="../assets/img/ikan/ikan.png" alt="Lionhead Classic">
-        <h3>Lionhead Classic</h3>
-        <p>Ikan tanpa sirip punggung dengan kepala besar khas singa.</p>
-        <span class="price">Rp 275.000</span>
-        <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 295px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-        <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ranchu Premium seharga Rp 300.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-      </div>
+                  <div class="card-body d-flex flex-column">
+                      <h5 class="card-title">
+                        <?= $i['jenisIkan'] . ' ' . $i['ukuran'] . '(' . $i['gender'] . ')' ?>
+                      </h5>
 
-      <div class="product-card" data-name="Tosakin Elegant">
-        <img src="../assets/img/ikan/ikan.png" alt="Tosakin Elegant">
-        <h3>Tosakin Elegant</h3>
-        <p>Sirip ekor melebar seperti kipas, sangat indah dilihat dari atas.</p>
-        <span class="price">Rp 400.000</span>
-        <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 295px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-        <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ranchu Premium seharga Rp 300.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
+                      <p class="card-text text-muted" style="flex-grow:1;">
+                        <?= $i['deskripsi'] ?>
+                      </p>
 
-      </div>
+                      <h6 class="text-primary font-weight-bold mb-3">
+                        Rp. <?= $i['harga'] ?>
+                      </h6>
 
-      <div class="product-card" data-name="Bubble Eye Fancy">
-        <img src="../assets/img/ikan/ikan.png" alt="Bubble Eye Fancy">
-        <h3>Bubble Eye Fancy</h3>
-        <p>Ikan unik dengan kantung udara di bawah matanya.</p>
-        <span class="price">Rp 330.000</span>
-        <button class="detail-button" style="margin-bottom : 10px; border-radius: 8px; padding : 10px 18px; display: inline-block; width: 295px" onclick="showDetail('Ryukin Calico','Size S (8cm) | Grade A | Ekor Panjang',220000,8,'Jenis Ryukin dengan corak calico tiga warna.')">Detail</button>
-        <a href="https://wa.me/6288706497974?text={{ urlencode('Halo, saya ingin membeli Ranchu Premium seharga Rp 300.000') }}" target="_blank" class="buy-button">Beli Sekarang</a>
-      </div>
+                      <button 
+                        class="btn btn-outline-primary mb-2 w-100" 
+                        onclick="showDetail('<?= $i['jenisIkan'] ?>','<?= $i['ukuran'] ?> (<?= $i['gender'] ?>)',<?= $i['harga'] ?>,<?= $i['stokIkan']?>,'<?= $i['deskripsi'] ?>')">
+                        Detail
+                      </button>
+
+                      <a href="https://wa.me/6288706497974?text=Halo, saya ingin membeli <?= $i['jenisIkan'] ?> seharga Rp <?= $i['harga'] ?>" 
+                        target="_blank" 
+                        class="btn btn-success w-100">
+                        Beli Sekarang
+                      </a>
+                  </div>
+
+              </div>
+          </div>
+      <?php } ?>
+
     </div>
 
-    <div class="lihat-semua-container" style="text-align:center; margin-top:30px;">
-      <a href="?page=produk" class="cta-button">Lihat Semua Ikan</a>
+    <div class="text-center mt-4">
+      <a href="?page=produk" class="btn btn-primary px-4 py-2">
+        Lihat Semua Ikan
+      </a>
     </div>
+
   </div>
 </section>
+
 
 
     
@@ -84,19 +82,19 @@
                 <div class="testi-card active">
                     <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                     <p class="quote">"Ikan sampai dengan selamat dan sehat! Warna Oranda-nya sesuai ekspektasi, benar-benar grade premium. Pelayanannya cepat."</p>
-                    <div class="author"><img src="https://via.placeholder.com/50/ffc107/1a237e?text=A" alt="Avatar Pelanggan A"><span>**Andi S.** - Jakarta</span></div>
+                    <div class="author"><img src="../assets/img/avatar.png" alt="Avatar Pelanggan A"><span>**Andi S.** - Jakarta</span></div>
                 </div>
 
                 <div class="testi-card">
                     <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
                     <p class="quote">"Ranchu yang saya pesan bodinya kokoh, sudah seminggu di akuarium baru tetap aktif dan lincah. Recomended seller Mas Koki!"</p>
-                    <div class="author"><img src="https://via.placeholder.com/50/00bcd4/ffffff?text=D" alt="Avatar Pelanggan B"><span>**Dewi P.** - Bandung</span></div>
+                    <div class="author"><img src="../assets/img/avatar2.png" alt="Avatar Pelanggan B"><span>**Dewi P.** - Bandung</span></div>
                 </div>
 
                 <div class="testi-card">
                     <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                     <p class="quote">"Pelayanan ramah, ikan dikirim dengan packaging terbaik. Tidak ada stres sama sekali. Pasti akan order lagi untuk nambah koleksi."</p>
-                    <div class="author"><img src="https://via.placeholder.com/50/1a237e/ffc107?text=R" alt="Avatar Pelanggan C"><span>**Rizky K.** - Surabaya</span></div>
+                    <div class="author"><img src="../assets/img/avatar3.png" alt="Avatar Pelanggan C"><span>**Rizky K.** - Surabaya</span></div>
                 </div>
             </div>
             

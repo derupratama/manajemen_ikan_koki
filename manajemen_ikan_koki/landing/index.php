@@ -1,3 +1,13 @@
+<?php
+
+require '../function/koneksi.php';
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,6 +16,7 @@
   <title>Kiyay Gold Fish - Jual Ikan Mas Koki Premium</title>
   <link rel="stylesheet" href="../assets/css/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -66,22 +77,9 @@
         </div>
     </div>
 
-    <div id="cartModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button" onclick="toggleCartModal()">&times;</span>
-            <h3><i class="fas fa-shopping-cart"></i> Keranjang Sementara</h3>
-            <div id="cart-items">
-                <p class="empty-cart-message">Keranjang Anda kosong.</p>
-            </div>
-            <div class="cart-summary">
-                <p>Total Item: <span id="cart-total-items">0</span> ekor</p>
-                <p>Total Harga: <span id="cart-total-price">Rp 0</span></p>
-            </div>
-            <a id="checkoutWaLink" href="#" target="_blank" class="wa-buy-button full-width-wa disabled"><i class="fab fa-whatsapp"></i> Proses Checkout (Kirim WA)</a>
-        </div>
-    </div>
+   
     
 <script src="../assets/js/main.js" defer></script>
-   
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>  
 </body>
 </html>
