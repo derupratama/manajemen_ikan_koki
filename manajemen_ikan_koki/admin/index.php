@@ -2,6 +2,11 @@
 
 require '../function/koneksi.php';
 
+if (!isset($_SESSION['idAdmin'])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
 
 
 ?>
@@ -147,7 +152,7 @@ require '../function/koneksi.php';
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="../auth/logout.php" class="nav-link">
               <i class="fa fa-power-off"></i>
               <p>
                 Logout

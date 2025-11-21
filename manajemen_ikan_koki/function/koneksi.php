@@ -2,6 +2,7 @@
 // ================================
 // KONEKSI DATABASE
 // ================================
+session_start();
 chdir(__DIR__);
 $db = new SQLite3(__DIR__ . 'ikankoki.sqlite');
 $db->exec("PRAGMA foreign_keys = ON;");
@@ -140,3 +141,8 @@ function query($sql) {
         return $db->exec($sql);
     }
 }
+// $hash = password_hash("admin", PASSWORD_DEFAULT);
+// $db->exec("
+//     INSERT INTO admin (username, name, password)
+//     VALUES ('admin', 'Administrator', '$hash')
+// ");
