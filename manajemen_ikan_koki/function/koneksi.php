@@ -43,7 +43,7 @@ $db->exec("
         harga INTEGER,
         deskripsi TEXT,
         gambarIkan TEXT,
-        FOREIGN KEY(idJenisIkan) REFERENCES JenisIkan(idJenisIkan)
+        FOREIGN KEY(idJenisIkan) REFERENCES JenisIkan(idJenisIkan) ON UPDATE CASCADE ON DELETE CASCADE
     )
 ");
 
@@ -57,23 +57,23 @@ $db->exec("
         totalHarga INTEGER,
         statusPenjualan TEXT,
         idAdmin INTEGER NOT NULL,
-        FOREIGN KEY(idAdmin) REFERENCES Admin(idAdmin)
+        FOREIGN KEY(idAdmin) REFERENCES Admin(idAdmin) ON UPDATE CASCADE ON DELETE CASCADE
     )
 ");
 
-// // ================================
-// // TABEL SUB PENJUALAN
-// // ================================
-// $db->exec("
-//     CREATE TABLE IF NOT EXISTS subPenjualan (
-//         idSubPenjualan INTEGER PRIMARY KEY AUTOINCREMENT,
-//         idPenjualan INTEGER NOT NULL,
-//         idIkan INTEGER NOT NULL,
-//         jumlahPembelian INTEGER NOT NULL,
-//         FOREIGN KEY(idPenjualan) REFERENCES Penjualan(idPenjualan),
-//         FOREIGN KEY(idIkan) REFERENCES Ikan(idIkan)
-//     )
-// ");
+// ================================
+// TABEL SUB PENJUALAN
+// ================================
+$db->exec("
+    CREATE TABLE IF NOT EXISTS subPenjualan (
+        idSubPenjualan INTEGER PRIMARY KEY AUTOINCREMENT,
+        idPenjualan INTEGER NOT NULL,
+        idIkan INTEGER NOT NULL,
+        jumlahPembelian INTEGER NOT NULL,
+        FOREIGN KEY(idPenjualan) REFERENCES Penjualan(idPenjualan) ON UPDATE CASCADE ON DELETE CASCADE,
+        FOREIGN KEY(idIkan) REFERENCES Ikan(idIkan) ON UPDATE CASCADE ON DELETE CASCADE
+    )
+");
 
 // // INSERT Admin
 // $db->exec("
@@ -155,34 +155,45 @@ $db->exec("
     )
 ");
 
-function uploadGambar($file, $conn, $folder = '../assets/img/ikan/') {
-    global $db;
+function uploadGambar($file, $folder = '../assets/img/ikan/') {
+
     if (!isset($file) || $file['error'] === UPLOAD_ERR_NO_FILE) {
-        return ['status' => false, 'msg' => 'Tidak ada gambar yang diupload.'];
+        return ['status' => false, 'msg' => 'Gambar tidak diupload.'];
     }
 
+    // Error handling bawaan PHP
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        return ['status' => false, 'msg' => 'Terjadi kesalahan saat upload.'];
+    }
+
+    // Maksimal 3MB
+    $maxSize = 3 * 1024 * 1024;
+    if ($file['size'] > $maxSize) {
+        return ['status' => false, 'msg' => 'Ukuran gambar maksimal 3MB.'];
+    }
+
+    // Cek folder
     if (!is_dir($folder)) {
         mkdir($folder, 0755, true);
     }
 
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $allowed = ['jpg','jpeg','png','gif'];
+
     if (!in_array($ext, $allowed)) {
-        return ['status' => false, 'msg' => 'File bukan gambar.'];
+        return ['status' => false, 'msg' => 'Format gambar tidak valid.'];
     }
 
-    $namaFile = uniqid('img_') . '.' . $ext;
+    // Nama file unik
+    $namaFile = uniqid('img_', true) . '.' . $ext;
 
+    // Pindah file
     if (!move_uploaded_file($file['tmp_name'], $folder . $namaFile)) {
-        return ['status' => false, 'msg' => 'Gagal memindahkan file.'];
+        return ['status' => false, 'msg' => 'Gagal menyimpan file.'];
     }
 
-    // Insert nama file ke database
-   $stmt = $db->prepare("INSERT INTO tabel_gambar (nama_file) VALUES (:nama)");
-    $stmt->bindValue(':nama', $namaFile, SQLITE3_TEXT);
-    $stmt->execute();
-
-
-    return ['status' => true, 'file' => $namaFile, 'msg' => 'Upload berhasil!'];
+    return ['status' => true, 'file' => $namaFile];
 }
+
+
 

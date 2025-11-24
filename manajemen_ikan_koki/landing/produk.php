@@ -17,7 +17,7 @@ $dataIkan = query("SELECT * FROM ikan
           <div class="col-md-4 col-lg-3 mb-4">
               <div class="card h-100 shadow-sm">
 
-                  <img src="../assets/img/ikan/ikan.png" 
+                  <img src="../assets/img/ikan/<?= $i['gambarIkan'] ?>" 
                        class="card-img-top" 
                        alt="<?= $i['deskripsi'] ?>"
                        style="object-fit: cover; height: 180px;">
