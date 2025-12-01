@@ -11,6 +11,51 @@ $username = $_SESSION['username'];
 $name = $_SESSION['name'];
 $idAdmin = $_SESSION['idAdmin'];
 
+$admin = query("SELECT * FROM admin WHERE idAdmin = $idAdmin")[0];
+
+if(isset($_POST['submitSetting'])) {
+    // Ambil input, trim spasi, ubah username & password ke lowercase
+    $username = strtolower(trim(htmlspecialchars($_POST['username'])));
+    $name = htmlspecialchars(trim($_POST['name']));
+    $noHp = htmlspecialchars(trim($_POST['noHp']));
+    $passwordLama = $_POST['passwordLama']; // jangan di-lowercase lagi, karena sudah hash
+    $passwordBaru = strtolower(trim($_POST['passwordBaru']));
+    $konfirmasi = strtolower(trim($_POST['konfirmasiPassword']));
+
+    // Cek apakah password baru ingin diganti
+    if(!empty($passwordBaru)) {
+        // Cek konfirmasi password
+        if($passwordBaru !== $konfirmasi) {
+            echo "<script>alert('Password baru dan konfirmasi tidak sama');</script>";
+            exit; // hentikan proses jika gagal
+        }
+        $password = password_hash($passwordBaru, PASSWORD_DEFAULT);
+    } else {
+        $password = $passwordLama; // tetap pakai password lama
+    }
+
+    // Update data admin
+    $stmt = $db->prepare("
+        UPDATE admin
+        SET username = :username,
+            name = :name,
+            password = :password,
+            noHp = :noHp
+        WHERE idAdmin = :idAdmin
+    ");
+
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':noHp', $noHp);
+    $stmt->bindParam(':idAdmin', $admin['idAdmin']);
+
+    if($stmt->execute()) {
+        echo "<script>alert('Data berhasil diperbarui');</script>";
+    } else {
+        echo "<script>alert('Gagal memperbarui data');</script>";
+    }
+}
 
 
 ?>
@@ -71,13 +116,13 @@ $idAdmin = $_SESSION['idAdmin'];
           <i class="fa fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">Nama Akun</span>
+          <span class="dropdown-item dropdown-header"><?= $admin['username'] ?></span>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <button type="submit" class="dropdown-item" data-toggle="modal" data-target="#modal-setting">
             <i class="fa fa-cog"></i> Settings
-          </a>
+          </button>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
+          <a href="../auth/logout.php" class="dropdown-item">
             <i class="fa fa-power-off"></i> Logout
           </a>
           
@@ -100,7 +145,7 @@ $idAdmin = $_SESSION['idAdmin'];
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
        
         <div class="info">
-          <a href="#" class="d-block"><?= $name ?></a>
+          <a href="#" class="d-block"><?= $admin['name'] ?></a>
         </div>
       </div>
 
@@ -194,6 +239,61 @@ $idAdmin = $_SESSION['idAdmin'];
       <b>Version</b> 1.0.0
     </div>
   </footer>
+
+  <!-- Modal Setting -->
+   <div class="modal fade" id="modal-setting">
+      <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Setting Akun</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                  <span>&times;</span>
+              </button>
+          </div>
+
+          <form method="post">
+          <div class="modal-body">
+
+              
+                        
+              <div class="form-group">
+                  <label for="name">Nama Lengkap</label>
+                  <input type="text" name="name" value="<?= $admin['name'] ?>" class="form-control" id="name">
+              </div>
+
+              <div class="form-group">
+                  <label for="username">username</label>
+                  <input type="text" name="username" value="<?= $admin['username'] ?>" class="form-control" id="username">
+              </div>
+
+              <div class="form-group">
+                  <label for="passwordBaru">Password</label>
+                  <input type="hidden" name="passwordLama" value="<?= $admin['password'] ?>">
+                  <input type="password" name="passwordBaru" class="form-control" id="passwordBaru">
+              </div>
+
+              <div class="form-group">
+                  <label for="konfirmasi">Konfirmasi Password</label>
+                  <input type="password" name="konfirmasiPassword" class="form-control" id="konfirmasi" placeholder="Isi hanya jika ingin mengganti password">
+              </div>
+              
+              <div class="form-group">
+                  <label for="noHp">No WA</label>
+                  <input type="text" name="noHp" value="<?= $admin['noHp'] ?>" class="form-control" id="noHp">
+              </div>
+
+
+          </div>
+
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" name="submitSetting" class="btn btn-primary">Simpan Perubahan</button>
+          </div>
+          </form>
+
+      </div>
+      </div>
+</div>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

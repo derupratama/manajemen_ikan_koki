@@ -3,8 +3,8 @@ require '../function/koneksi.php';
 
 if (isset($_POST['login'])) {
 
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $username = strtolower(trim($_POST['username'])) ?? '';
+    $password = strtolower(trim($_POST['password'])) ?? '';
 
     if ($username === '' || $password === '') {
         $error = "Harap isi semua field!";

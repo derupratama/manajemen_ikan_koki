@@ -166,7 +166,7 @@
         </div>
         <!-- Tambah data jenis -->
 
-        <div class="modal fade" id="modal-ubah-jenis-ikan">
+    <div class="modal fade" id="modal-ubah-jenis-ikan">
       <div class="modal-dialog modal-lg">
       <div class="modal-content">
           <div class="modal-header">

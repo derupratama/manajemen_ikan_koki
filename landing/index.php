@@ -23,7 +23,7 @@ require '../function/koneksi.php';
 
 <header class="header">
   <nav class="container">
-    <a href="#" class="logo">Kiyay Gold Fish</a>
+    <a href="?page=beranda" class="logo">Kiyay Gold Fish</a>
     <div class="header-right">
   <?php $pages = (isset($_GET['page'])) ? $_GET['page'] : 'beranda';
   if($pages ==  'produk') { ?>

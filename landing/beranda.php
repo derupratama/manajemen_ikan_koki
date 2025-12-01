@@ -41,7 +41,8 @@ $dataIkan = query("SELECT * FROM ikan
                       </p>
 
                       <h6 class="text-primary font-weight-bold mb-3">
-                        Rp. <?= $i['harga'] ?>
+                        Rp. <?= number_format($i['harga'], 0, ',', '.') ?>
+
                       </h6>
 
                       <button 

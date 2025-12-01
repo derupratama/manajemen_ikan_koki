@@ -18,9 +18,16 @@ $db->exec("
         idAdmin INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL UNIQUE,
         name TEXT NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        noHp TEXT
     )
 ");
+
+// $db->exec("
+//     UPDATE admin
+//     SET noHp = '08123456789'
+//     WHERE idAdmin = 3
+// ");
 
 // ================================
 // TABEL JENIS IKAN
