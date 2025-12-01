@@ -27,7 +27,7 @@ require '../function/koneksi.php';
     <div class="header-right">
       <?php
       $pages = (isset($_GET['page'])) ? $_GET['page'] : 'beranda';
-      if($_GET['page'] ==  'produk') { ?>
+      if($pages ==  'produk') { ?>
       <form id="search-form" class="search-form">
         <input type="text" id="search-input" placeholder="Cari Ikan..." aria-label="Cari Ikan">
         <button type="submit" title="Cari"><i class="fas fa-search"></i></button>

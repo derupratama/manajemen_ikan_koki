@@ -7,6 +7,9 @@ if (!isset($_SESSION['idAdmin'])) {
     exit;
 }
 
+$username = $_SESSION['username'];
+$name = $_SESSION['name'];
+
 
 
 ?>
@@ -96,7 +99,7 @@ if (!isset($_SESSION['idAdmin'])) {
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
        
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block"><?= $name ?></a>
         </div>
       </div>
 
