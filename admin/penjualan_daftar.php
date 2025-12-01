@@ -14,36 +14,26 @@
 if (isset($_POST['submitTambah'])) {
 
     $tanggalPenjualan = date('Y-m-d'); 
-    $idIkan       = $_POST['idIkan'];        
-    $jumlah       = $_POST['jumlah'];  
+    $idIkan = $_POST['idIkan'];        
+    $jumlah = $_POST['jumlah'];  
 
-    // Hitung total harga
     $totalHarga = 0;
+    $stokBaru = [];
 
     foreach ($idIkan as $id) {
+        $i = query("SELECT harga, stokIkan FROM ikan WHERE idIkan = $id")[0];
+        $jumlahPenjualan = $jumlah[$id];
 
-    // Ambil harga & stok
-    $i = query("SELECT harga, stokIkan FROM ikan WHERE idIkan = $id")[0];
+        if ($jumlahPenjualan > $i['stokIkan']) {
+            echo "<script>alert('Jumlah pembelian untuk ikan ID $id melebihi stok!'); history.back();</script>";
+            exit;
+        }
 
-    $jumlahIkanLama   = $i['stokIkan'];
-    $jumlahPenjualan  = $jumlah[$id];
-
-    // Validasi stok
-    if ($jumlahPenjualan > $jumlahIkanLama) {
-        echo "<script>alert('Jumlah pembelian untuk ikan ID $id melebihi stok!'); history.back();</script>";
-        exit;
+        $stokBaru[$id] = $i['stokIkan'] - $jumlahPenjualan;
+        $totalHarga += $i['harga'] * $jumlahPenjualan;
     }
 
-    // Simpan stok baru (nanti dipakai update setelah valid semua)
-    $stokBaru[$id] = $jumlahIkanLama - $jumlahPenjualan;
-
-    // Hitung subtotal harga
-    $totalHarga += $i['harga'] * $jumlahPenjualan;
-}
-
-    // 2. KALAU SEMUA VALID → UPDATE STOK + INSERT PENJUALAN
-
-    // Insert header penjualan
+    // Insert header penjualan → HANYA SATU KALI
     $stmt = $db->prepare("INSERT INTO penjualan (tanggalPenjualan, totalHarga, idAdmin, statusPenjualan)
                           VALUES (:tanggalPenjualan, :totalHarga, :idAdmin, :status)");
     $stmt->bindValue(':tanggalPenjualan', $tanggalPenjualan, SQLITE3_TEXT);
@@ -54,7 +44,7 @@ if (isset($_POST['submitTambah'])) {
 
     $idPenjualan = $db->lastInsertRowID();
 
-    // UPDATE STOK SEKARANG
+    // Update stok ikan
     foreach ($stokBaru as $id => $stokFinal) {
         $stmt = $db->prepare("UPDATE ikan SET stokIkan = :stok WHERE idIkan = :id");
         $stmt->bindValue(':stok', $stokFinal, SQLITE3_INTEGER);
@@ -62,36 +52,18 @@ if (isset($_POST['submitTambah'])) {
         $stmt->execute();
     }
 
-    // Insert header penjualan
-    $stmt = $db->prepare("INSERT INTO penjualan (tanggalPenjualan, totalHarga, idAdmin, statusPenjualan)
-                          VALUES (:tanggalPenjualan, :totalHarga, :idAdmin, :status)");
-    $stmt->bindValue(':tanggalPenjualan', $tanggalPenjualan, SQLITE3_TEXT);
-    $stmt->bindValue(':totalHarga', $totalHarga, SQLITE3_INTEGER);
-    $stmt->bindValue(':idAdmin', $idAdmin, SQLITE3_INTEGER);
-    $stmt->bindValue(':status', "Diproses", SQLITE3_TEXT);
-    $stmt->execute();
-
-    $idPenjualan = $db->lastInsertRowID();
-
-    // Insert detail
+    // Insert detail subPenjualan
     foreach ($idIkan as $id) {
-
-        // Ambil harga lagi
-        $q = $db->query("SELECT harga FROM ikan WHERE idIkan = $id");
-        $data = $q->fetchArray(SQLITE3_ASSOC);
-        $harga = $data['harga'];
-
-        $jml = $jumlah[$id];
-        $subtotal = $harga * $jml;
+        $harga = query("SELECT harga FROM ikan WHERE idIkan = $id")[0]['harga'];
+        $subtotal = $harga * $jumlah[$id];
 
         $stmt2 = $db->prepare("
             INSERT INTO subPenjualan (idPenjualan, idIkan, jumlahPembelian)
             VALUES (:idPenjualan, :idIkan, :jumlah)
         ");
-
         $stmt2->bindValue(':idPenjualan', $idPenjualan, SQLITE3_INTEGER);
         $stmt2->bindValue(':idIkan', $id, SQLITE3_INTEGER);
-        $stmt2->bindValue(':jumlah', $jml, SQLITE3_INTEGER);
+        $stmt2->bindValue(':jumlah', $jumlah[$id], SQLITE3_INTEGER);
         $stmt2->execute();
     }
 
@@ -100,6 +72,7 @@ if (isset($_POST['submitTambah'])) {
         window.location.href='?page=penjualan_daftar';
     </script>";
 }
+
 
 
   // Logika update status penjualan

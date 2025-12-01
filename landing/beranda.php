@@ -4,6 +4,8 @@ $dataIkan = query("SELECT * FROM ikan
   JOIN jenisIKan ON ikan.idJenisIkan = jenisIkan.idJenisIkan
   ORDER BY idJenisIkan DESC LIMIT 8");
 
+$rating = query("SELECT * FROM rating");
+
 
 ?>
 
@@ -78,23 +80,16 @@ $dataIkan = query("SELECT * FROM ikan
             <h2><i class="fas fa-quote-left"></i> Apa Kata Mereka?</h2>
             
             <div class="testimonial-carousel">
-                <div class="testi-card active">
+              <?php foreach($rating as $index => $r) { ?>
+                <div class="testi-card <?= $index === 0 ? 'active' : '' ?>">
                     <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="quote">"Ikan sampai dengan selamat dan sehat! Warna Oranda-nya sesuai ekspektasi, benar-benar grade premium. Pelayanannya cepat."</p>
-                    <div class="author"><img src="../assets/img/avatar.png" alt="Avatar Pelanggan A"><span>**Andi S.** - Jakarta</span></div>
+                    <p class="quote">"<?= $r['isiRating'] ?>"</p>
+                    <div class="author"><img src="../assets/img/rating/<?= $r['foto'] ?>" alt="Avatar Pelanggan A"><span><?= $r['namaOrang'] . " - " . $r['lokasi'] ?></span></div>
                 </div>
+              
+                <?php } ?>
 
-                <div class="testi-card">
-                    <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-                    <p class="quote">"Ranchu yang saya pesan bodinya kokoh, sudah seminggu di akuarium baru tetap aktif dan lincah. Recomended seller Mas Koki!"</p>
-                    <div class="author"><img src="../assets/img/avatar2.png" alt="Avatar Pelanggan B"><span>**Dewi P.** - Bandung</span></div>
-                </div>
-
-                <div class="testi-card">
-                    <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="quote">"Pelayanan ramah, ikan dikirim dengan packaging terbaik. Tidak ada stres sama sekali. Pasti akan order lagi untuk nambah koleksi."</p>
-                    <div class="author"><img src="../assets/img/avatar3.png" alt="Avatar Pelanggan C"><span>**Rizky K.** - Surabaya</span></div>
-                </div>
+      
             </div>
             
             <div class="carousel-nav">

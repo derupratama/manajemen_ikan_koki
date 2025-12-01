@@ -1,3 +1,11 @@
+<?php
+
+$jumlahPenjualan = query("SELECT count(*) AS jumlah FROM penjualan WHERE statusPenjualan = 'Diproses'")[0];
+$penjualanBerhasil = query("SELECT count(*) AS jumlah FROM penjualan WHERE statusPenjualan = 'Selesai'")[0];
+$penjualanGagal = query("SELECT count(*) AS jumlah FROM penjualan WHERE statusPenjualan = 'Gagal'")[0];
+$jumlahIkan = query("SELECT sum(stokIkan) AS jumlah FROM ikan")[0];
+?>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -9,7 +17,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
+              <li class="breadcrumb-item active">Dashboard</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,14 +34,14 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3><?= $jumlahPenjualan['jumlah'] ?></h3>
 
-                <p>New Orders</p>
+                <p>Total Penjualan Diproses</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="?page=penjualan_daftar" class="small-box-footer">Lihat Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -41,14 +49,14 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3><?= $penjualanBerhasil['jumlah'] ?></h3>
 
-                <p>Bounce Rate</p>
+                <p>Total Penjualan Berhasil</p>
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="?page=penjualan_history" class="small-box-footer">Lihat Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -56,14 +64,14 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3><?= $jumlahIkan['jumlah'] ?></h3>
 
-                <p>User Registrations</p>
+                <p>Total Ikan</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="?page=ikan_daftar" class="small-box-footer">Lihat Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -71,24 +79,22 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3><?= $penjualanGagal['jumlah'] ?></h3>
 
-                <p>Unique Visitors</p>
+                <p>Total Penjualan Gagal</p>
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="?page=penjualan_history" class="small-box-footer">Lihat Selengkapnya <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
         </div>
         <!-- /.row -->
         <!-- Main row -->
-        <div class="row">
-          <!-- Left col -->
+        <!-- <div class="row">
           <section class="col-lg-7 connectedSortable">
-            <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -105,11 +111,10 @@
                     </li>
                   </ul>
                 </div>
-              </div><!-- /.card-header -->
+              </div>
               
               <div class="card-body">
                 <div class="tab-content p-0">
-                  <!-- Morris chart - Sales -->
                   <div class="chart tab-pane active" id="revenue-chart"
                        style="position: relative; height: 300px;">
                       <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
@@ -127,7 +132,6 @@
             <div class="card bg-gradient-primary">
               
              
-              <!-- /.card-body-->
               <div class="card-footer bg-transparent">
                 <div class="row">
                   <div class="col-4 text-center">
@@ -148,7 +152,7 @@
           
           </section>
           
-        </div>
+        </div> -->
       </div>
     </section>
   </div>
