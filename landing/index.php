@@ -24,7 +24,7 @@ $admin = query("SELECT * FROM admin WHERE idAdmin = 3")[0];
 
 <header class="header">
   <nav class="container">
-    <a href="?page=beranda" class="logo">Kiyay Gold Fish</a>
+    <a href="?page=beranda" class="logo">Kiyay GoldFish Lampung</a>
     <div class="header-right">
   <?php $pages = (isset($_GET['page'])) ? $_GET['page'] : 'beranda';
   if($pages ==  'produk') { ?>
@@ -92,7 +92,7 @@ $admin = query("SELECT * FROM admin WHERE idAdmin = 3")[0];
    
     
 <script src="../assets/js/main.js" defer></script>
-<script src="../asstes/js/header-menu.js" defer></script>
+<script src="../assets/js/header-menu.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script>
 const hamburger = document.querySelector('.hamburger');
@@ -101,6 +101,15 @@ const navLinks = document.querySelector('.nav-links');
 hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     navLinks.classList.toggle('show');
+});
+</script>
+
+<script>
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.remove('show');
+    document.querySelector('.hamburger').classList.remove('active');
+  });
 });
 </script>
 
