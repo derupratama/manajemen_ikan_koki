@@ -147,6 +147,14 @@ $name = $_SESSION['name'];
             </a>
           </li>
           <li class="nav-item">
+            <a href="?page=penjualan_histori" class="nav-link <?= $active = ($pages == 'penjualan_histori') ? 'active' : '' ?>">
+             <i class="fa fa-shopping-cart"></i>
+              <p>
+                Histori Penjualan
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="fa fa-star"></i>
               <p>
