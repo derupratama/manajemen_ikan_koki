@@ -114,17 +114,17 @@ $db->exec("
 //     ('2025-11-22', 250000, 'Selesai', 2)
 // ");
 
-// // INSERT SubPenjualan
+// INSERT SubPenjualan
 // $db->exec("
 //     INSERT INTO SubPenjualan (idPenjualan, idIkan, jumlahPembelian) VALUES
-//     (1, 1, 1),
-//     (1, 3, 1),
-//     (1, 7, 1),
-//     (2, 2, 1),
-//     (2, 6, 1),
-//     (2, 10, 1),
-//     (3, 5, 1),
-//     (3, 8, 1)
+//     (1, 13, 1),
+//     (1, 15, 1),
+//     (1, 16, 1),
+//     (2, 18, 1),
+//     (2, 17, 1),
+//     (2, 19, 1),
+//     (3, 21, 1),
+//     (3, 22, 1)
 // ");
 
 function query($sql) {

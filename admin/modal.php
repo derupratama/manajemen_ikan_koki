@@ -9,6 +9,18 @@ $('#modal-ubah-jenis-ikan').on('show.bs.modal', function(event) {
     $('#edit_jenis').val(jenis);
 });
 
+// Update status penjualan
+$('#modal-ubah-penjualan').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+    var status = button.data('status');
+
+    $('#edit_id').val(id);
+    $('#edit_status').val(status);
+});
+
+
+// Ubah data ikan
 $('#modal-edit-ikan').on('show.bs.modal', function(event) {
 
     var button = $(event.relatedTarget);

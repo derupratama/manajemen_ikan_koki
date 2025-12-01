@@ -128,7 +128,7 @@ if (!isset($_SESSION['idAdmin'])) {
               </a>
             </li>
           <li class="nav-item">
-            <a href="?page=ikan_daftar" class="nav-link <?= $active = ($pages == 'ikan_daftar') ? 'active' : '' ?>"">
+            <a href="?page=ikan_daftar" class="nav-link <?= $active = ($pages == 'ikan_daftar') ? 'active' : '' ?>">
               <i class="fa fa-window-restore"></i>
               <p>
                 Data Ikan
@@ -136,7 +136,7 @@ if (!isset($_SESSION['idAdmin'])) {
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+            <a href="?page=penjualan_daftar" class="nav-link <?= $active = ($pages == 'penjualan_daftar') ? 'active' : '' ?>">
              <i class="fa fa-shopping-cart"></i>
               <p>
                 Penjualan

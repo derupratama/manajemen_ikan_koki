@@ -109,3 +109,5 @@ function prevTesti() {
 // ===============================
 updateCartDisplay();
 showTesti(currentTesti);
+
+
