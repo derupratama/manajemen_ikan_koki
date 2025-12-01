@@ -199,15 +199,12 @@ if(isset($_POST['submitSetting'])) {
                 Histori Penjualan
               </p>
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="fa fa-star"></i>
-              <p>
-                Rating
-              </p>
+         <li class="nav-item">
+            <a href="?page=rating_daftar" class="nav-link <?= ($pages == 'rating_daftar') ? 'active' : '' ?>">
+               <i class="nav-icon fas fa-star"></i>
+               <p>Rating</p>
             </a>
-          </li>
+        </li>
           <li class="nav-item">
             <a href="../auth/logout.php" class="nav-link">
               <i class="fa fa-power-off"></i>

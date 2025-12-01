@@ -204,5 +204,20 @@ function uploadGambar($file, $folder = '../assets/img/ikan/') {
     return ['status' => true, 'file' => $namaFile];
 }
 
+$db->exec("
+    CREATE TABLE IF NOT EXISTS rating (
+        idRating INTEGER PRIMARY KEY AUTOINCREMENT,
+        idJenisIkan INTEGER NOT NULL,
+        jenisIkan TEXT NOT NULL,
+        lokasi TEXT NOT NULL,
+        namaOrang TEXT NOT NULL,
+        foto TEXT,
+        isiRating TEXT NOT NULL,
+        tanggal TEXT DEFAULT CURRENT_TIMESTAMP,
+        
+        FOREIGN KEY(idJenisIkan) REFERENCES jenisIkan(idJenisIkan)
+            ON UPDATE CASCADE ON DELETE CASCADE
+    )
+");
 
 
