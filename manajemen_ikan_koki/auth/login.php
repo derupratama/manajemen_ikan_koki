@@ -1,5 +1,5 @@
 <?php
-require '../function/koneksi.php'; // koneksi SQLite3
+require '../function/koneksi.php';
 
 if (isset($_POST['login'])) {
 
@@ -10,7 +10,6 @@ if (isset($_POST['login'])) {
         $error = "Harap isi semua field!";
     } else {
 
-        // Query pakai prepared SQLite3
         $stmt = $db->prepare("SELECT idAdmin, username, name, password FROM admin WHERE username = ?");
         $stmt->bindValue(1, $username, SQLITE3_TEXT);
 
@@ -40,7 +39,7 @@ if (isset($_POST['login'])) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in</title>
+  <title>Kiyay Goldfish - Login Admin</title>
 
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">

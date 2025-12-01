@@ -23,7 +23,8 @@ $dataIkan = query("SELECT * FROM ikan
 
       <?php foreach($dataIkan as $index => $i) { ?>
           <div class="col-md-4 col-lg-3 mb-4">
-              <div class="card h-100 shadow-sm">
+              <div class="product-card card h-100 shadow-sm"
+                data-name="<?= strtolower($i['jenisIkan'] . ' ' . $i['ukuran'] . ' ' . $i['gender']) ?>" >
 
                   <img src="../assets/img/ikan/<?= $i['gambarIkan'] ?>" 
                        class="card-img-top" 

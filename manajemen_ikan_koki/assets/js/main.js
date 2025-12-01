@@ -31,7 +31,7 @@ searchForm.addEventListener('submit', function (e) {
 
     cards.forEach(card => {
         const name = card.getAttribute('data-name').toLowerCase();
-        card.style.display = name.includes(searchTerm) ? 'flex' : 'none';
+        card.parentElement.style.display = name.includes(searchTerm) ? 'block' : 'none';
         if (name.includes(searchTerm)) found++;
     });
 
