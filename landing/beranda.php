@@ -72,9 +72,6 @@ $dataIkan = query("SELECT * FROM ikan
   </div>
 </section>
 
-
-
-    
     <section id="testimoni" class="testimoni-section">
         <div class="container">
             <h2><i class="fas fa-quote-left"></i> Apa Kata Mereka?</h2>
@@ -128,3 +125,4 @@ $dataIkan = query("SELECT * FROM ikan
     </iframe>
   </div>
 </div>
+

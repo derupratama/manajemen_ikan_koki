@@ -51,4 +51,10 @@ $('#modal-edit-ikan').on('show.bs.modal', function(event) {
     $('#edit_preview').attr('src', '../assets/img/ikan/' + gambar);
 });
 
+function openEditModal(id, status) {
+    document.getElementById("edit_id").value = id;
+    document.getElementById("edit_status").value = status;
+    $("#modal-ubah-penjualan").modal("show");
+}
+
 </script>

@@ -9,6 +9,7 @@ if (!isset($_SESSION['idAdmin'])) {
 
 $username = $_SESSION['username'];
 $name = $_SESSION['name'];
+$idAdmin = $_SESSION['idAdmin'];
 
 
 

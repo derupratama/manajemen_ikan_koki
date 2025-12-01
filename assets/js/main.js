@@ -22,31 +22,33 @@ function formatRupiah(number) {
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
 
-searchForm.addEventListener('submit', function (e) {
-    e.preventDefault();
+if (searchForm && searchInput) {
+    searchForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    const searchTerm = searchInput.value.toLowerCase();
-    const cards = document.querySelectorAll('.product-card');
-    let found = 0;
+        const searchTerm = searchInput.value.toLowerCase();
+        const cards = document.querySelectorAll('.product-card');
+        let found = 0;
 
-    cards.forEach(card => {
-        const name = card.getAttribute('data-name').toLowerCase();
-        card.parentElement.style.display = name.includes(searchTerm) ? 'block' : 'none';
-        if (name.includes(searchTerm)) found++;
+        cards.forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            card.parentElement.style.display = name.includes(searchTerm) ? 'block' : 'none';
+            if (name.includes(searchTerm)) found++;
+        });
+
+        document.getElementById('no-results').style.display = found === 0 ? 'block' : 'none';
     });
 
-    document.getElementById('no-results').style.display = found === 0 ? 'block' : 'none';
-});
+    searchInput.addEventListener('keyup', function () {
+        if (this.value === '') {
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.style.display = 'flex';
+            });
+            document.getElementById('no-results').style.display = 'none';
+        }
+    });
+}
 
-// Reset hasil pencarian jika input kosong
-searchInput.addEventListener('keyup', function () {
-    if (this.value === '') {
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.style.display = 'flex';
-        });
-        document.getElementById('no-results').style.display = 'none';
-    }
-});
 
 // ===============================
 // 3. MODAL DETAIL & CART
@@ -80,7 +82,6 @@ window.onclick = function (event) {
     if (event.target === detailModal) detailModal.style.display = "none";
     if (event.target === cartModal)   cartModal.style.display = "none";
 };
-
 // ===============================
 // 4. TESTIMONIAL CAROUSEL
 // ===============================
@@ -109,5 +110,7 @@ function prevTesti() {
 // ===============================
 updateCartDisplay();
 showTesti(currentTesti);
+
+
 
 

@@ -1,9 +1,6 @@
 <?php
 
-require '../function/koneksi.php';
-
-
-
+require '../function/koneksi.php';  
 
 ?>
 

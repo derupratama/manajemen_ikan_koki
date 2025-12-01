@@ -1,6 +1,7 @@
   <?php
 
-  $dataPenjualan = query("SELECT * FROM penjualan");
+  $dataPenjualan = query("SELECT * FROM penjualan
+  ORDER BY idPenjualan DESC");
   $allIkan = query("SELECT ikan.*, jenisIkan.jenisIkan
       FROM ikan
       JOIN jenisIkan ON jenisIkan.idJenisIkan = ikan.idJenisIkan
@@ -11,61 +12,88 @@
   // Logika tambah penjualan
 if (isset($_POST['submitTambah'])) {
 
-    // --- Ambil data utama (header) ---
-    $tanggalPenjualan = date('Y-m-d');  // sudah fixed disabled di modal
+    $tanggalPenjualan = date('Y-m-d'); 
+    $idIkan       = $_POST['idIkan'];        
+    $jumlah       = $_POST['jumlah'];  
 
-    // Mengambil array dari form
-    $idIkan       = $_POST['idIkan'];        // array
-    $jumlah       = $_POST['jumlah'];        // array
-    $hargaSatuan  = $_POST['hargaSatuan'];   // array (hasil cek harga)
-
-    // Cek jika tidak ada ikan yang dipilih
-    if (!is_array($idIkan) || count($idIkan) == 0) {
-        echo "<script>alert('Pilih minimal satu ikan!');</script>";
-        return;
-    }
-
-    // Hitung total harga keseluruhan sebelum insert header
+    // Hitung total harga
     $totalHarga = 0;
-    for ($i = 0; $i < count($idIkan); $i++) {
-        $subtotal = $jumlah[$i] * $hargaSatuan[$i];
-        $totalHarga += $subtotal;
+
+    foreach ($idIkan as $id) {
+
+    // Ambil harga & stok
+    $i = query("SELECT harga, stokIkan FROM ikan WHERE idIkan = $id")[0];
+
+    $jumlahIkanLama   = $i['stokIkan'];
+    $jumlahPenjualan  = $jumlah[$id];
+
+    // Validasi stok
+    if ($jumlahPenjualan > $jumlahIkanLama) {
+        echo "<script>alert('Jumlah pembelian untuk ikan ID $id melebihi stok!'); history.back();</script>";
+        exit;
     }
 
-    // --- Insert ke tabel penjualan (header) ---
-    $stmt = $db->prepare("INSERT INTO penjualan (tanggalPenjualan, totalHarga) 
-                          VALUES (:tanggalPenjualan, :totalHarga)");
+    // Simpan stok baru (nanti dipakai update setelah valid semua)
+    $stokBaru[$id] = $jumlahIkanLama - $jumlahPenjualan;
+
+    // Hitung subtotal harga
+    $totalHarga += $i['harga'] * $jumlahPenjualan;
+}
+
+    // 2. KALAU SEMUA VALID → UPDATE STOK + INSERT PENJUALAN
+
+    // Insert header penjualan
+    $stmt = $db->prepare("INSERT INTO penjualan (tanggalPenjualan, totalHarga, idAdmin, statusPenjualan)
+                          VALUES (:tanggalPenjualan, :totalHarga, :idAdmin, :status)");
     $stmt->bindValue(':tanggalPenjualan', $tanggalPenjualan, SQLITE3_TEXT);
     $stmt->bindValue(':totalHarga', $totalHarga, SQLITE3_INTEGER);
+    $stmt->bindValue(':idAdmin', $idAdmin, SQLITE3_INTEGER);
+    $stmt->bindValue(':status', "Diproses", SQLITE3_TEXT);
+    $stmt->execute();
 
-    $insertHeader = $stmt->execute();
-
-    if (!$insertHeader) {
-        echo "<script>alert('Gagal menambahkan penjualan!');</script>";
-        return;
-    }
-
-    // Ambil ID terakhir (header) untuk detail
     $idPenjualan = $db->lastInsertRowID();
 
-    // --- Insert detail penjualan (loop) ---
-    for ($i = 0; $i < count($idIkan); $i++) {
+    // UPDATE STOK SEKARANG
+    foreach ($stokBaru as $id => $stokFinal) {
+        $stmt = $db->prepare("UPDATE ikan SET stokIkan = :stok WHERE idIkan = :id");
+        $stmt->bindValue(':stok', $stokFinal, SQLITE3_INTEGER);
+        $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+        $stmt->execute();
+    }
 
-        $subtotal = $jumlah[$i] * $hargaSatuan[$i];
+    // Insert header penjualan
+    $stmt = $db->prepare("INSERT INTO penjualan (tanggalPenjualan, totalHarga, idAdmin, statusPenjualan)
+                          VALUES (:tanggalPenjualan, :totalHarga, :idAdmin, :status)");
+    $stmt->bindValue(':tanggalPenjualan', $tanggalPenjualan, SQLITE3_TEXT);
+    $stmt->bindValue(':totalHarga', $totalHarga, SQLITE3_INTEGER);
+    $stmt->bindValue(':idAdmin', $idAdmin, SQLITE3_INTEGER);
+    $stmt->bindValue(':status', "Diproses", SQLITE3_TEXT);
+    $stmt->execute();
 
-        $stmt2 = $db->prepare("INSERT INTO detailPenjualan 
-            (idPenjualan, idIkan, jumlahPembelian, subtotal)
-            VALUES (:idPenjualan, :idIkan, :jumlah, :subtotal)");
+    $idPenjualan = $db->lastInsertRowID();
+
+    // Insert detail
+    foreach ($idIkan as $id) {
+
+        // Ambil harga lagi
+        $q = $db->query("SELECT harga FROM ikan WHERE idIkan = $id");
+        $data = $q->fetchArray(SQLITE3_ASSOC);
+        $harga = $data['harga'];
+
+        $jml = $jumlah[$id];
+        $subtotal = $harga * $jml;
+
+        $stmt2 = $db->prepare("
+            INSERT INTO subPenjualan (idPenjualan, idIkan, jumlahPembelian)
+            VALUES (:idPenjualan, :idIkan, :jumlah)
+        ");
 
         $stmt2->bindValue(':idPenjualan', $idPenjualan, SQLITE3_INTEGER);
-        $stmt2->bindValue(':idIkan', $idIkan[$i], SQLITE3_INTEGER);
-        $stmt2->bindValue(':jumlah', $jumlah[$i], SQLITE3_INTEGER);
-        $stmt2->bindValue(':subtotal', $subtotal, SQLITE3_INTEGER);
-
+        $stmt2->bindValue(':idIkan', $id, SQLITE3_INTEGER);
+        $stmt2->bindValue(':jumlah', $jml, SQLITE3_INTEGER);
         $stmt2->execute();
     }
 
-    // --- Jika semua sukses ---
     echo "<script>
         alert('Penjualan berhasil ditambahkan!');
         window.location.href='?page=penjualan_daftar';
@@ -73,27 +101,52 @@ if (isset($_POST['submitTambah'])) {
 }
 
 
-  // Logika Ubah Jenis Ikan
-  if (isset($_POST['submitUbah'])) {
+  // Logika update status penjualan
+if (isset($_POST['submitUbah'])) {
 
-      $id = intval($_POST['idJenisIkan']);
-      $jenisBaru = trim($_POST['jenisIkan']);
+    $idPenjualan = $_POST['idPenjualan'];
+    $statusBaru  = $_POST['statusPenjualan'];
 
-      if ($jenisBaru !== "") {
-          $stmt = $db->prepare("UPDATE jenisIkan SET jenisIkan = :jenis WHERE idJenisIkan = :id");
-          $stmt->bindValue(':jenis', $jenisBaru, SQLITE3_TEXT);
-          $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
+    // Ambil status lama
+    $q = $db->query("SELECT statusPenjualan FROM penjualan WHERE idPenjualan = $idPenjualan");
+    $data = $q->fetchArray(SQLITE3_ASSOC);
+    $statusLama = $data['statusPenjualan'];
 
-          if ($stmt->execute()) {
-              echo "<script>
-                  alert('Data berhasil diubah!');
-                  window.location.href='?page=jenis_daftar';
-              </script>";
-          } else {
-              echo "<script>alert('Gagal mengubah data!');</script>";
-          }
-      }
-  }
+    // Jika status berubah menjadi "Gagal"
+    if ($statusBaru == "Gagal" && $statusLama != "Gagal") {
+
+        // Ambil semua detail untuk mengembalikan stok
+        $result = $db->query("SELECT idIkan, jumlahPembelian FROM subPenjualan WHERE idPenjualan = $idPenjualan");
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+
+            $idIkan = $row['idIkan'];
+            $jumlahBeli = $row['jumlahPembelian'];
+
+            // Kembalikan stok
+            $db->exec("
+                UPDATE ikan 
+                SET stokIkan = stokIkan + $jumlahBeli 
+                WHERE idIkan = $idIkan
+            ");
+        }
+    }
+
+    // Update status penjualan
+    $stmt = $db->prepare("UPDATE penjualan 
+                          SET statusPenjualan = :status 
+                          WHERE idPenjualan = :id");
+    
+    $stmt->bindValue(':status', $statusBaru, SQLITE3_TEXT);
+    $stmt->bindValue(':id', $idPenjualan, SQLITE3_INTEGER);
+    $stmt->execute();
+
+    echo "<script>
+        alert('Status penjualan berhasil diupdate!');
+        window.location.href='?page=penjualan_daftar';
+    </script>";
+}
+
 
   ?>
 
@@ -164,7 +217,7 @@ if (isset($_POST['submitTambah'])) {
                         <?php } ?>
                     </td>
                     <td><?= $p['tanggalPenjualan'] ?></td>
-                    <td>Rp. <?= number_format($s['harga'], 0, ',', '.') ?></td>
+                    <td>Rp. <?= number_format($p['totalHarga'], 0, ',', '.') ?></td>
                     <td><?= $p['statusPenjualan'] ?></td>
                       <td>
                         <button type="button" 
@@ -176,7 +229,7 @@ if (isset($_POST['submitTambah'])) {
                       data-status="<?= $p['statusPenjualan']; ?>"
                     >
                         <i class="fa fa-cog"></i>
-
+                          
                         </button>
                       <a class="btn btn-danger btn-sm" href="?page=jenis_hapus&id=<?= $p['idPenjualan'] ?>">
                           <i class="fa fa-times" aria-hidden="true"></i>
@@ -228,14 +281,14 @@ if (isset($_POST['submitTambah'])) {
                     <!-- MULTI SELECT IKAN -->
                     <div class="form-group">
                         <label>Pilih Ikan (Multi Select)</label>
-                        <select id="selectIkan" class="form-control" multiple size="8">
+                        <select id="selectIkan" name="idIkan[]" class="form-control" multiple size="8">
                             <?php foreach($allIkan as $i): ?>
                                 <option 
                                     value="<?= $i['idIkan'] ?>"
                                     data-harga="<?= $i['harga'] ?>"
                                     data-nama="<?= $i['jenisIkan'] . ' ' . $i['ukuran'] . ' (' . $i['gender'] . ')' ?>"
                                 >
-                                    <?= $i['jenisIkan'] ?> - <?= $i['ukuran'] ?> (<?= $i['gender'] ?>) - Rp <?= number_format($i['harga'],0,',','.') ?>
+                                    <?= $i['jenisIkan'] ?> - <?= $i['ukuran'] ?> (<?= $i['gender'] ?>) - Rp <?= number_format($i['harga'],0,',','.') ?> - Stok : <?= $i['stokIkan'] ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -269,9 +322,9 @@ if (isset($_POST['submitTambah'])) {
     </div>
 </div>
 
-        <!-- Tambah data jenis -->
+    <!-- Ubah status Penjualan -->
 
-        <div class="modal fade" id="modal-ubah-penjualan">
+    <div class="modal fade" id="modal-ubah-penjualan">
       <div class="modal-dialog modal-lg">
       <div class="modal-content">
           <div class="modal-header">
@@ -284,7 +337,7 @@ if (isset($_POST['submitTambah'])) {
           <form method="post">
           <div class="modal-body">
 
-              <input type="hidden" name="idJenisIkan" id="edit_id">
+              <input type="hidden" name="idPenjualan" id="edit_id">
                         
               <div class="form-group">
                   <label for="edit_status">Update Status</label>
