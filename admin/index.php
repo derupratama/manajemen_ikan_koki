@@ -280,6 +280,7 @@ if(isset($_POST['submitSetting'])) {
               <div class="form-group">
                   <label for="noHp">No WA</label>
                   <input type="text" name="noHp" value="<?= $admin['noHp'] ?>" class="form-control" id="noHp">
+                  <sub>Note* No. diawali dengan 62..</sub>
               </div>
 
 

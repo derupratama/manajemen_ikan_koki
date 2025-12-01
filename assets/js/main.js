@@ -1,7 +1,7 @@
 // ===============================
 // 0. KONSTANTA
 // ===============================
-const WA_NUMBER = "6288706497974"; 
+const WA_NUMBER = "6281278817837"; 
 let cart = JSON.parse(localStorage.getItem('kiyay_cart')) || [];
 
 // ===============================

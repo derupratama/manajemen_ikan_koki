@@ -1,6 +1,7 @@
 <?php
 
 require '../function/koneksi.php';
+$admin = query("SELECT * FROM admin WHERE idAdmin = 3")[0];
 
 
 
@@ -69,7 +70,7 @@ require '../function/koneksi.php';
         </div>
     </footer>
 
-    <a href="https://wa.me/6288706497974?text=Halo%20Kiyay%20Gold%20Fish%2C%20saya%20mau%20bertanya%20tentang%20koleksi%20ikan." target="_blank" class="floating-wa" title="Chat via WhatsApp">
+    <a href="https://wa.me/<?= $admin['noHp']?>?text=Halo%20Kiyay%20Gold%20Fish%2C%20saya%20mau%20bertanya%20tentang%20koleksi%20ikan." target="_blank" class="floating-wa" title="Chat via WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
     

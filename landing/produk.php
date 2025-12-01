@@ -42,7 +42,7 @@ $dataIkan = query("SELECT * FROM ikan
                         Detail
                       </button>
 
-                      <a href="https://wa.me/6288706497974?text=Halo, saya ingin membeli <?= $i['jenisIkan'] ?> seharga Rp <?= $i['harga'] ?>" 
+                      <a href="https://wa.me/<?= $admin['noHp'] ?>?text=Halo, saya ingin membeli <?= $i['jenisIkan'] ?> seharga Rp <?= $i['harga'] ?>" 
                         target="_blank" 
                         class="btn btn-success w-100">
                         Beli Sekarang
