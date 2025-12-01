@@ -1,7 +1,7 @@
   <?php
 
   $dataPenjualan = query("SELECT * FROM penjualan
-  WHERE statusPenjualan = 'Diproses'
+  WHERE statusPenjualan IN ('Gagal', 'Selesai')
   ORDER BY idPenjualan DESC");
   $allIkan = query("SELECT ikan.*, jenisIkan.jenisIkan
       FROM ikan
@@ -185,9 +185,7 @@ if (isset($_POST['submitUbah'])) {
                 
                 <!-- /.card-header -->
                 <div class="card-body">
-                  <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-tambah">
-                    Tambah Data
-                  </button>
+                  
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -197,7 +195,6 @@ if (isset($_POST['submitUbah'])) {
                       <th>Tanggal Penjualan</th>
                       <th>Total Harga</th>
                       <th>Status</th>
-                      <th>Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -220,26 +217,7 @@ if (isset($_POST['submitUbah'])) {
                     <td><?= $p['tanggalPenjualan'] ?></td>
                     <td>Rp. <?= number_format($p['totalHarga'], 0, ',', '.') ?></td>
                     <td><?= $p['statusPenjualan'] ?></td>
-                      <td>
-                        <button type="button" 
-                      class="btn btn-warning btn-sm btn-edit" 
-                      href="#"
-                      data-toggle="modal" 
-                      data-target="#modal-ubah-penjualan"
-                      data-id="<?= $p['idPenjualan']; ?>"
-                      data-status="<?= $p['statusPenjualan']; ?>"
-                    >
-                        <i class="fa fa-cog"></i>
                       
-                        
-
-                        </button>
-                          <a href="?page=penjualan_hapus&id=<?= $p['idPenjualan'] ?>" 
-                          onclick="return confirm('Yakin ingin menghapus penjualan ini?')"
-                          class="btn btn-danger btn-sm">
-                          <i class="fa fa-times" aria-hidden="true"></i>
-                        </a>
-                      </td> 
                     </tr>
                     <?php } ?>
                   

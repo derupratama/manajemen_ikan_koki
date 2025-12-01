@@ -148,7 +148,7 @@ $idAdmin = $_SESSION['idAdmin'];
             </a>
           </li>
           <li class="nav-item">
-            <a href="?page=penjualan_histori" class="nav-link <?= $active = ($pages == 'penjualan_histori') ? 'active' : '' ?>">
+            <a href="?page=penjualan_history" class="nav-link <?= $active = ($pages == 'penjualan_history') ? 'active' : '' ?>">
              <i class="fa fa-shopping-cart"></i>
               <p>
                 Histori Penjualan
