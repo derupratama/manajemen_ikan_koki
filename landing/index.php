@@ -1,6 +1,9 @@
 <?php
 
-require '../function/koneksi.php';  
+require '../function/koneksi.php';
+
+
+
 
 ?>
 
@@ -20,24 +23,31 @@ require '../function/koneksi.php';
 
 <header class="header">
   <nav class="container">
-    <a href="#" class="logo">🐠 Kiyay Gold Fish</a>
+    <a href="#" class="logo">Kiyay Gold Fish</a>
     <div class="header-right">
-      <?php
-      $pages = (isset($_GET['page'])) ? $_GET['page'] : 'beranda';
-      if($pages ==  'produk') { ?>
-      <form id="search-form" class="search-form">
-        <input type="text" id="search-input" placeholder="Cari Ikan..." aria-label="Cari Ikan">
-        <button type="submit" title="Cari"><i class="fas fa-search"></i></button>
-      </form>
-      <?php } ?>
+  <?php $pages = (isset($_GET['page'])) ? $_GET['page'] : 'beranda';
+  if($pages ==  'produk') { ?>
+    <form id="search-form" class="search-form">
+      <input type="text" id="search-input" placeholder="Cari Ikan..." aria-label="Cari Ikan">
+      <button type="submit" title="Cari"><i class="fas fa-search"></i></button>
+    </form>
+  <?php } ?>
 
-      <ul>
-        <li><a href="?page=beranda">Beranda</a></li>
-        <li><a href="?page=produk">Produk</a></li>
-        <li><a href="?page=beranda#testimoni">Testimoni</a></li>
-        <li><a href="?page=beranda#kontak" class="cta-nav">Hubungi Kami</a></li>
-      </ul>
-    </div>
+  <ul class="nav-links">
+    <li><a href="?page=beranda">Beranda</a></li>
+    <li><a href="?page=produk">Produk</a></li>
+    <li><a href="?page=beranda#testimoni">Testimoni</a></li>
+    <li><a href="?page=beranda#kontak" class="cta-nav">Hubungi Kami</a></li>
+  </ul>
+
+  <!-- Hamburger -->
+  <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+  </div>
+</div>
+
   </nav>
 </header>
 
@@ -81,6 +91,17 @@ require '../function/koneksi.php';
    
     
 <script src="../assets/js/main.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>  
+<script src="../asstes/js/header-menu.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script>
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('show');
+});
+</script>
+
 </body>
 </html>
