@@ -19,20 +19,19 @@ $admin = query("SELECT * FROM admin WHERE idAdmin = 3")[0];
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/jpeg" href="../assets/img/logo.jpg">
+
 </head>
 <body>
 
 <header class="header">
   <nav class="container">
-    <a href="?page=beranda" class="logo">Kiyay GoldFish Lampung</a>
+    <a href="?page=beranda" class="logo"><img style="width: 50px; margin-right: 10px" src="../assets/img/logo.jpg">Kiyay GoldFish Lampung</a>
     <div class="header-right">
-  <?php $pages = (isset($_GET['page'])) ? $_GET['page'] : 'beranda';
-  if($pages ==  'produk') { ?>
     <form id="search-form" class="search-form">
       <input type="text" id="search-input" placeholder="Cari Ikan..." aria-label="Cari Ikan">
       <button type="submit" title="Cari"><i class="fas fa-search"></i></button>
     </form>
-  <?php } ?>
 
   <ul class="nav-links">
     <li><a href="?page=beranda">Beranda</a></li>

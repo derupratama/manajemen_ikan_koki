@@ -67,6 +67,8 @@ if(isset($_POST['submitSetting'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kiyay Gold Fish - Admin</title>
+  <link rel="icon" type="image/jpeg" href="../assets/img/logo.jpg">
+
 
 
   <!-- Google Font: Source Sans Pro -->
@@ -135,7 +137,7 @@ if(isset($_POST['submitSetting'])) {
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="../assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="../assets/img/logo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Kiyay Gold Fish</span>
     </a>
 

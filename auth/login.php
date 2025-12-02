@@ -40,6 +40,8 @@ if (isset($_POST['login'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kiyay Goldfish - Login Admin</title>
+  <link rel="icon" type="image/jpeg" href="../assets/img/logo.jpg">
+
 
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
