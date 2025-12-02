@@ -52,7 +52,7 @@ body {
 
 .logo {
     color: var(--background-light);
-    font-size: 1.6em;
+    font-size: 24px;
     font-weight: 700;
     text-decoration: none;
     letter-spacing: 1px;
@@ -633,7 +633,7 @@ body {
     .header-right {
         width: 100%;
         justify-content: space-between;
-        margin-left: 0;
+        margin-left: 0px;
         margin-bottom: 10px; /* Jarak sebelum links */
     }
     

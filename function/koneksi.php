@@ -9,6 +9,8 @@ chdir(__DIR__);
 $db = new SQLite3(__DIR__ . 'ikankoki.sqlite');
 $db->exec("PRAGMA foreign_keys = ON;");
 
+$db->exec("DELETE FROM admin WHERE idAdmin = 2");
+$db->exec("DELETE FROM admin WHERE idAdmin = 3");
 
 // ================================
 // TABEL ADMIN
@@ -88,8 +90,6 @@ $db->exec("
 // $db->exec("
 //     INSERT INTO Admin (username, name, password) VALUES
 //     ('admin1', 'Nova Arundyna', 'admin123'),
-//     ('admin2', 'Akmal Saputra', 'kucingmanis')
-// ");
 
 // // INSERT Jenis Ikan
 // $db->exec("
