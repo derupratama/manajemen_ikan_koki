@@ -25,8 +25,8 @@ $rating = query("SELECT * FROM rating");
     <div class="row" id="product-list">
 
       <?php foreach($dataIkan as $index => $i) { 
-        if($index >= 8) break;?>
-          <div class="col-md-4 col-lg-3 mb-4">
+        $hidden = $index >= 8 ? 'style="display:none;"' : '';?>
+          <div class="col-md-4 col-lg-3 mb-4" <?= $hidden ?>>
               <div class="product-card card h-100 shadow-sm"
                 data-name="<?= strtolower($i['jenisIkan'] . ' ' . $i['ukuran'] . ' ' . $i['gender']) ?>" >
 
