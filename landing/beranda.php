@@ -2,7 +2,8 @@
 
 $dataIkan = query("SELECT * FROM ikan
   JOIN jenisIKan ON ikan.idJenisIkan = jenisIkan.idJenisIkan
-  ORDER BY idJenisIkan DESC LIMIT 8");
+  WHERE stokIkan != 0
+  ORDER BY idJenisIkan DESC");
 
 $rating = query("SELECT * FROM rating");
 
@@ -23,7 +24,8 @@ $rating = query("SELECT * FROM rating");
 
     <div class="row" id="product-list">
 
-      <?php foreach($dataIkan as $index => $i) { ?>
+      <?php foreach($dataIkan as $index => $i) { 
+        if($index >= 8) break;?>
           <div class="col-md-4 col-lg-3 mb-4">
               <div class="product-card card h-100 shadow-sm"
                 data-name="<?= strtolower($i['jenisIkan'] . ' ' . $i['ukuran'] . ' ' . $i['gender']) ?>" >

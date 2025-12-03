@@ -1,7 +1,8 @@
 <?php
 
 $dataIkan = query("SELECT * FROM ikan
-  JOIN jenisIKan ON ikan.idJenisIkan = jenisIkan.idJenisIkan");
+  JOIN jenisIKan ON ikan.idJenisIkan = jenisIkan.idJenisIkan
+  WHERE stokIkan != 0");
 
 
 ?>
