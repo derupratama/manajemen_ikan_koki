@@ -9,19 +9,6 @@ chdir(__DIR__);
 $db = new SQLite3(__DIR__ . 'ikankoki.sqlite');
 $db->exec("PRAGMA foreign_keys = ON;");
 
-$db->exec("DELETE FROM admin WHERE idAdmin = 2");
-$db->exec("DELETE FROM admin WHERE idAdmin = 3");
-
-$db->exec("
-    INSERT OR REPLACE INTO admin (idAdmin, username, name, password, noHp)
-    VALUES (
-        3,
-        'admin',
-        'Admin Kiyay Goldfish',
-        '$2y$10$1Y4KQCBi/pX7RnK0LGiF1.zbd6qEq.6Poq.IoRj7JaKjX9nQ1M53e',
-        '6288706497974'
-    )
-");
 
 // ================================
 // TABEL ADMIN
@@ -218,16 +205,11 @@ function uploadGambar($file, $folder = '../assets/img/ikan/') {
 $db->exec("
     CREATE TABLE IF NOT EXISTS rating (
         idRating INTEGER PRIMARY KEY AUTOINCREMENT,
-        idJenisIkan INTEGER NOT NULL,
-        jenisIkan TEXT NOT NULL,
         lokasi TEXT NOT NULL,
         namaOrang TEXT NOT NULL,
         foto TEXT,
         isiRating TEXT NOT NULL,
-        tanggal TEXT DEFAULT CURRENT_TIMESTAMP,
-        
-        FOREIGN KEY(idJenisIkan) REFERENCES jenisIkan(idJenisIkan)
-            ON UPDATE CASCADE ON DELETE CASCADE
+        tanggal TEXT DEFAULT CURRENT_TIMESTAMP
     )
 ");
 

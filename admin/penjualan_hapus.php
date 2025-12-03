@@ -13,8 +13,7 @@ foreach ($sub as $item) {
 
     // ambil stok lama
     $q = query("SELECT stokIkan FROM ikan WHERE idIkan = $idIkan")[0]['stokIkan'];
-    $stok = $q->fetchArray(SQLITE3_ASSOC)['stokIkan'];
-    $stokBaru = $stok + $jumlahJual;
+    $stokBaru = $q + $jumlahJual;
 
     // update stok
     $stmt = $db->prepare("UPDATE ikan SET stokIkan = :stok WHERE idIkan = :id");

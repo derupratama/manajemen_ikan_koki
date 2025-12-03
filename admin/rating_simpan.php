@@ -2,24 +2,14 @@
 require_once "../function/koneksi.php";
 header("Content-Type: application/json");
 
-$id_ikan     = $_POST['id_ikan'] ?? '';
 $komentar    = $_POST['komentar'] ?? '';
 $lokasi      = $_POST['lokasi'] ?? '';
 $nama_orang  = $_POST['nama_orang'] ?? 'Anonim';
 
-// Ambil jenis ikan dari relasi
-$qJenis = $db->query("
-    SELECT ji.jenisIkan, ji.idJenisIkan
-    FROM ikan i
-    JOIN jenisIkan ji ON ji.idJenisIkan = i.idJenisIkan
-    WHERE i.idIkan = '$id_ikan'
-");
-$rowJenis     = $qJenis->fetchArray(SQLITE3_ASSOC);
-$namaJenis    = $rowJenis['jenisIkan'] ?? '';
-$idJenisIkan  = $rowJenis['idJenisIkan'] ?? '';
+
 
 // Upload foto
-$fotoNama = '';
+$fotoNama = 'user.png';
 if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
     $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
     $allowed = ['jpg','jpeg','png','gif'];
@@ -33,8 +23,8 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
 
 // Simpan ke tabel rating
 $q = "
-    INSERT INTO rating (idJenisIkan, jenisIkan, lokasi, namaOrang, isiRating, foto, tanggal)
-    VALUES ('$idJenisIkan', '$namaJenis', '$lokasi', '$nama_orang', '$komentar', '$fotoNama', DATE('now'))
+    INSERT INTO rating ( lokasi, namaOrang, isiRating, foto, tanggal)
+    VALUES ('$lokasi', '$nama_orang', '$komentar', '$fotoNama', DATE('now'))
 ";
 
 $run = $db->exec($q);
@@ -53,7 +43,6 @@ echo json_encode([
     "success"     => true,
     "id"          => $idBaru,
     "nama_orang"  => $nama_orang,
-    "nama_ikan"   => $namaJenis,
     "komentar"    => $komentar,
     "lokasi"      => $lokasi,
     "tanggal"     => date("Y-m-d"),

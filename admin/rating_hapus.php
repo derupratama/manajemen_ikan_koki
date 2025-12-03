@@ -29,7 +29,7 @@ if (!$hapus) {
 }
 
 // Hapus file foto jika ada
-if ($foto) {
+if ($foto && $foto != 'user.png') {
     $path = "../assets/img/rating/" . $foto;
     if (file_exists($path)) {
         unlink($path);

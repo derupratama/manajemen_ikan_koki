@@ -9,7 +9,6 @@ $sql = "
         r.isiRating AS komentar,
         r.lokasi,
         r.tanggal,
-        r.jenisIkan AS nama_ikan,
         r.foto
     FROM rating r
     ORDER BY r.idRating DESC
@@ -49,7 +48,6 @@ $result = $db->query($sql);
                 <tr data-id="<?= $row['id']; ?>">
                     <td><?= $no++; ?></td>
                     <td><?= htmlspecialchars($row['namaOrang']); ?></td>
-                    <td><?= htmlspecialchars($row['nama_ikan']); ?></td>
                     <td><?= htmlspecialchars($row['komentar']); ?></td>
                     <td><?= htmlspecialchars($row['lokasi']); ?></td>
                     <td><?= htmlspecialchars($row['tanggal']); ?></td>
@@ -87,22 +85,6 @@ $result = $db->query($sql);
                         <input type="text" name="nama_orang" class="form-control" required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Pilih Ikan</label>
-                        <select name="id_ikan" class="form-control" required>
-                            <option value="">-- Pilih Ikan --</option>
-                            <?php
-                            $ikanQ = $db->query("
-                                SELECT i.idIkan, ji.jenisIkan
-                                FROM ikan i
-                                JOIN jenisIkan ji ON ji.idJenisIkan = i.idJenisIkan
-                                ORDER BY ji.jenisIkan ASC
-                            ");
-                            while($i = $ikanQ->fetchArray(SQLITE3_ASSOC)) { ?>
-                                <option value="<?= $i['idIkan']; ?>"><?= htmlspecialchars($i['jenisIkan']); ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         <label>Komentar</label>
@@ -157,7 +139,6 @@ $(document).ready(function() {
                     <tr data-id="${res.id}">
                         <td>NEW</td>
                         <td>${res.nama_orang}</td>
-                        <td>${res.nama_ikan}</td>
                         <td>${res.komentar}</td>
                         <td>${res.lokasi}</td>
                         <td>${res.tanggal}</td>

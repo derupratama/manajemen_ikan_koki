@@ -51,6 +51,7 @@ if (isset($_POST['submitTambah'])) {
         $stmt->bindValue(':id', $id, SQLITE3_INTEGER);
         $stmt->execute();
     }
+    
 
     // Insert subPenjualan
     foreach ($idIkan as $id) {
@@ -66,7 +67,7 @@ if (isset($_POST['submitTambah'])) {
         $stmt2->bindValue(':jumlah', $jumlah[$id], SQLITE3_INTEGER);
         $stmt2->execute();
     }
-
+    
     echo "<script>
         alert('Penjualan berhasil ditambahkan!');
         window.location.href='?page=penjualan_daftar';
