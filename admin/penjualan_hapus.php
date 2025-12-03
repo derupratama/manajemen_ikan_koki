@@ -4,22 +4,16 @@
 $idPenjualan = intval($_GET['id']);
 
 // 1. ambil sub penjualan dulu
-$sub = $db->query("SELECT idIkan, jumlahPembelian FROM subPenjualan WHERE idPenjualan = $idPenjualan");
-
-$subData = [];  
-while ($row = $sub->fetchArray(SQLITE3_ASSOC)) {
-    $subData[] = $row;
-}
+$sub = query("SELECT idIkan, jumlahPembelian FROM subPenjualan WHERE idPenjualan = $idPenjualan");
 
 // 2. kembalikan stok ikan berdasarkan sub penjualan
-foreach ($subData as $item) {
+foreach ($sub as $item) {
     $idIkan     = $item['idIkan'];
     $jumlahJual = $item['jumlahPembelian'];
 
     // ambil stok lama
-    $q = $db->query("SELECT stokIkan FROM ikan WHERE idIkan = $idIkan");
+    $q = query("SELECT stokIkan FROM ikan WHERE idIkan = $idIkan")[0]['stokIkan'];
     $stok = $q->fetchArray(SQLITE3_ASSOC)['stokIkan'];
-
     $stokBaru = $stok + $jumlahJual;
 
     // update stok

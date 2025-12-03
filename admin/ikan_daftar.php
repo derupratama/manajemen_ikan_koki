@@ -45,7 +45,6 @@ if (isset($_POST['submitTambah'])) {
         )
     ");
 
-    // Bind value
     $stmt->bindValue(':idJenis',    $idJenisIkan, SQLITE3_TEXT);
     $stmt->bindValue(':ukuran',     $ukuran,      SQLITE3_TEXT);
     $stmt->bindValue(':gender',     $gender,      SQLITE3_TEXT);
@@ -78,7 +77,8 @@ if (isset($_POST['submitEdit'])) {
     $harga       = intval($_POST['harga']);
     $deskripsi   = trim($_POST['deskripsi']);
     $gambarLama  = trim($_POST['gambarLama']); 
-    // ===== CEK GAMBAR BARU =====
+    
+    // Cek gambar baru
     if ($_FILES['gambarIkan']['error'] === UPLOAD_ERR_NO_FILE) {
 
         // Tidak ada file upload, pakai gambar lama

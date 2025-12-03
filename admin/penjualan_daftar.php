@@ -33,7 +33,7 @@ if (isset($_POST['submitTambah'])) {
         $totalHarga += $i['harga'] * $jumlahPenjualan;
     }
 
-    // Insert header penjualan → HANYA SATU KALI
+    // Insert penjualan
     $stmt = $db->prepare("INSERT INTO penjualan (tanggalPenjualan, totalHarga, idAdmin, statusPenjualan)
                           VALUES (:tanggalPenjualan, :totalHarga, :idAdmin, :status)");
     $stmt->bindValue(':tanggalPenjualan', $tanggalPenjualan, SQLITE3_TEXT);
@@ -52,7 +52,7 @@ if (isset($_POST['submitTambah'])) {
         $stmt->execute();
     }
 
-    // Insert detail subPenjualan
+    // Insert subPenjualan
     foreach ($idIkan as $id) {
         $harga = query("SELECT harga FROM ikan WHERE idIkan = $id")[0]['harga'];
         $subtotal = $harga * $jumlah[$id];
@@ -81,18 +81,13 @@ if (isset($_POST['submitUbah'])) {
     $idPenjualan = $_POST['idPenjualan'];
     $statusBaru  = $_POST['statusPenjualan'];
 
-    // Ambil status lama
-    $q = $db->query("SELECT statusPenjualan FROM penjualan WHERE idPenjualan = $idPenjualan");
-    $data = $q->fetchArray(SQLITE3_ASSOC);
-    $statusLama = $data['statusPenjualan'];
-
     // Jika status berubah menjadi "Gagal"
-    if ($statusBaru == "Gagal" && $statusLama != "Gagal") {
+    if ($statusBaru == "Gagal") {
 
         // Ambil semua detail untuk mengembalikan stok
-        $result = $db->query("SELECT idIkan, jumlahPembelian FROM subPenjualan WHERE idPenjualan = $idPenjualan");
+        $result = query("SELECT idIkan, jumlahPembelian FROM subPenjualan WHERE idPenjualan = $idPenjualan");
 
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        foreach($result as $row) {
 
             $idIkan = $row['idIkan'];
             $jumlahBeli = $row['jumlahPembelian'];

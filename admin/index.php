@@ -14,27 +14,23 @@ $idAdmin = $_SESSION['idAdmin'];
 $admin = query("SELECT * FROM admin WHERE idAdmin = $idAdmin")[0];
 
 if(isset($_POST['submitSetting'])) {
-    // Ambil input, trim spasi, ubah username & password ke lowercase
     $username = strtolower(trim(htmlspecialchars($_POST['username'])));
     $name = htmlspecialchars(trim($_POST['name']));
     $noHp = htmlspecialchars(trim($_POST['noHp']));
-    $passwordLama = $_POST['passwordLama']; // jangan di-lowercase lagi, karena sudah hash
+    $passwordLama = $_POST['passwordLama'];
     $passwordBaru = strtolower(trim($_POST['passwordBaru']));
     $konfirmasi = strtolower(trim($_POST['konfirmasiPassword']));
 
-    // Cek apakah password baru ingin diganti
     if(!empty($passwordBaru)) {
-        // Cek konfirmasi password
         if($passwordBaru !== $konfirmasi) {
             echo "<script>alert('Password baru dan konfirmasi tidak sama');</script>";
-            exit; // hentikan proses jika gagal
+            exit; 
         }
         $password = password_hash($passwordBaru, PASSWORD_DEFAULT);
     } else {
-        $password = $passwordLama; // tetap pakai password lama
+        $password = $passwordLama;
     }
 
-    // Update data admin
     $stmt = $db->prepare("
         UPDATE admin
         SET username = :username,
