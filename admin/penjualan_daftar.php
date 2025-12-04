@@ -33,7 +33,6 @@ if (isset($_POST['submitTambah'])) {
         $totalHarga += $i['harga'] * $jumlahPenjualan;
     }
 
-    // Insert penjualan
     $stmt = $db->prepare("INSERT INTO penjualan (tanggalPenjualan, totalHarga, idAdmin, statusPenjualan)
                           VALUES (:tanggalPenjualan, :totalHarga, :idAdmin, :status)");
     $stmt->bindValue(':tanggalPenjualan', $tanggalPenjualan, SQLITE3_TEXT);
@@ -44,7 +43,6 @@ if (isset($_POST['submitTambah'])) {
 
     $idPenjualan = $db->lastInsertRowID();
 
-    // Update stok ikan
     foreach ($stokBaru as $id => $stokFinal) {
         $stmt = $db->prepare("UPDATE ikan SET stokIkan = :stok WHERE idIkan = :id");
         $stmt->bindValue(':stok', $stokFinal, SQLITE3_INTEGER);
@@ -53,7 +51,6 @@ if (isset($_POST['submitTambah'])) {
     }
     
 
-    // Insert subPenjualan
     foreach ($idIkan as $id) {
         $harga = query("SELECT harga FROM ikan WHERE idIkan = $id")[0]['harga'];
         $subtotal = $harga * $jumlah[$id];
@@ -76,16 +73,13 @@ if (isset($_POST['submitTambah'])) {
 
 
 
-  // Logika update status penjualan
 if (isset($_POST['submitUbah'])) {
 
     $idPenjualan = $_POST['idPenjualan'];
     $statusBaru  = $_POST['statusPenjualan'];
 
-    // Jika status berubah menjadi "Gagal"
     if ($statusBaru == "Gagal") {
 
-        // Ambil semua detail untuk mengembalikan stok
         $result = query("SELECT idIkan, jumlahPembelian FROM subPenjualan WHERE idPenjualan = $idPenjualan");
 
         foreach($result as $row) {
@@ -93,7 +87,6 @@ if (isset($_POST['submitUbah'])) {
             $idIkan = $row['idIkan'];
             $jumlahBeli = $row['jumlahPembelian'];
 
-            // Kembalikan stok
             $db->exec("
                 UPDATE ikan 
                 SET stokIkan = stokIkan + $jumlahBeli 
@@ -344,7 +337,7 @@ let btnSimpan = document.getElementById("btnSimpan");
 
 // Saat memilih ikan → tampilkan input jumlah
 selectIkan.addEventListener("change", function() {
-    jumlahWrapper.innerHTML = ""; // reset
+    jumlahWrapper.innerHTML = "";
 
     [...this.selectedOptions].forEach(opt => {
         jumlahWrapper.innerHTML += `

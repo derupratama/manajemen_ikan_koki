@@ -15,7 +15,7 @@ if (isset($_POST['submitTambah'])) {
     $stokIkan    = trim($_POST['stokIkan']);
     $harga       = trim($_POST['harga']);
     $deskripsi   = trim($_POST['deskripsi']);
-    $gambarIkan = uploadGambar($_FILES['gambarIkan']);
+    $gambarIkan = uploadGambar($_FILES['gambarIkan']['NAME']);
 
     $gambar = null;
     if ($gambarIkan['status']) {

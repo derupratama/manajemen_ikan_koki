@@ -8,8 +8,8 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $tables[] = $row['name'];
 }
 
-echo "<h1>Daftar Tabel & Isi Data</h1>";
-echo "<hr>";
+
+
 
 foreach ($tables as $table) {
     echo "<h2>Tabel: <b>$table</b></h2>";

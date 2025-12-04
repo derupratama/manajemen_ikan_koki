@@ -1,7 +1,7 @@
   <?php
 
   $dataPenjualan = query("SELECT * FROM penjualan
-  WHERE statusPenjualan IN ('Gagal', 'Selesai')
+  WHERE statusPenjualan IN ('Gagal', 'Selesai', 'Diproses')
   ORDER BY idPenjualan DESC");
 
 
